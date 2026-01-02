@@ -16,15 +16,16 @@
     <style>
         /* --- CSS VARIABLES & RESET --- */
         :root {
-            --primary-color: #5F7161; /* Sage Green */
-            --primary-dark: #4A584C;
-            --accent-color: #D4AF37; /* Muted Gold */
-            --bg-light: #F9F9F7;
+            /* THEME UPDATED TO PINK & CHEERFUL MODERN */
+            --primary-color: #E85D75; /* Modern Rose Pink */
+            --primary-dark: #C2425A;  /* Darker Pink for Hover/Text */
+            --accent-color: #FFC857; /* Cheerful Yellow/Orange */
+            --bg-light: #FFF0F3;      /* Very light pinkish background */
             --bg-white: #FFFFFF;
             --text-dark: #333333;
             --text-light: #666666;
-            --shadow: 0 5px 15px rgba(0,0,0,0.05);
-            --shadow-hover: 0 15px 30px rgba(95, 113, 97, 0.15);
+            --shadow: 0 5px 15px rgba(232, 93, 117, 0.15); /* Shadow tinted pink */
+            --shadow-hover: 0 15px 30px rgba(232, 93, 117, 0.25);
             --radius: 12px;
             --max-width: 1200px;
         }
@@ -99,14 +100,14 @@
         .btn-primary {
             background-color: var(--primary-color);
             color: white;
-            box-shadow: 0 4px 6px rgba(95, 113, 97, 0.2);
+            box-shadow: 0 4px 6px rgba(232, 93, 117, 0.3);
             border: none;
         }
 
         .btn-primary:hover {
             background-color: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(95, 113, 97, 0.3);
+            box-shadow: 0 6px 12px rgba(232, 93, 117, 0.4);
         }
 
         .btn-outline {
@@ -280,22 +281,6 @@
             color: var(--text-light);
         }
 
-        .stats {
-            display: flex;
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .stat-item h4 {
-            font-size: 2rem;
-            color: var(--accent-color);
-        }
-
-        .stat-item span {
-            font-size: 0.9rem;
-            color: var(--text-light);
-        }
-
         /* --- SERVICES SECTION --- */
         #services {
             background-color: var(--bg-light);
@@ -317,6 +302,7 @@
             flex-direction: column;
             border: 1px solid rgba(0,0,0,0.03);
             position: relative;
+            height: 100%;
         }
 
         .service-card:hover {
@@ -327,7 +313,7 @@
         .card-image-wrapper {
             position: relative;
             width: 100%;
-            height: 200px;
+            height: 220px;
             overflow: hidden;
         }
 
@@ -347,40 +333,44 @@
             top: 15px;
             right: 15px;
             background: var(--accent-color);
-            color: white;
+            color: #333;
             padding: 5px 12px;
             font-size: 0.75rem;
             font-weight: bold;
             border-radius: 20px;
             text-transform: uppercase;
+            z-index: 2;
         }
 
         .card-body {
-            padding: 25px 20px;
+            padding: 30px 25px;
             text-align: center;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
+            justify-content: flex-start;
         }
 
         .card-body h3 {
             margin-bottom: 10px;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             color: var(--primary-dark);
         }
 
         .price {
             display: block;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--primary-color);
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .card-body p {
             color: var(--text-light);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.8;
             flex-grow: 1;
         }
 
@@ -394,8 +384,12 @@
             color: white;
         }
         
+        #features .section-title p {
+            color: #ffffff; /* PERBAIKAN: Teks putih agar mudah dibaca di background pink */
+        }
+
         #features .section-title::after {
-            background-color: white;
+            background-color: var(--accent-color);
         }
 
         .features-grid {
@@ -406,7 +400,7 @@
         }
 
         .feature-item {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.15);
             padding: 30px;
             border-radius: var(--radius);
         }
@@ -425,82 +419,95 @@
         }
 
         .feature-item p {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,0.9);
             font-size: 0.9rem;
         }
 
-        /* --- BOOKING PROCEDURE --- */
-        #procedure {
+        /* --- GALLERY SECTION --- */
+        #gallery {
             background-color: var(--bg-white);
+            padding-bottom: 60px;
         }
 
-        .steps-container {
+        .gallery-slider-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hover);
+            overflow: hidden;
+            background: #000;
+        }
+
+        .gallery-track {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .step-card {
-            flex: 1;
-            min-width: 250px;
-            text-align: center;
-            padding: 20px;
+        .gallery-slide {
+            min-width: 100%;
             position: relative;
         }
 
-        .step-number {
-            width: 60px;
-            height: 60px;
-            background: var(--primary-color);
-            color: white;
+        .gallery-slide img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+            opacity: 0.9;
+        }
+
+        .gallery-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            color: var(--primary-dark);
+            border: none;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 0 auto 20px;
-            box-shadow: var(--shadow);
+            transition: 0.3s;
+            font-size: 1.2rem;
         }
 
-        .step-card h4 {
-            margin-bottom: 10px;
-            color: var(--primary-dark);
+        .gallery-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
         }
 
-        /* --- GALLERY --- */
-        #gallery {
-            padding-bottom: 40px;
+        .g-prev-btn { left: 20px; }
+        .g-next-btn { right: 20px; }
+
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
         }
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+        .g-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #ddd;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: var(--radius);
-            height: 250px;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
+        .g-dot.active {
+            background-color: var(--primary-color);
+            transform: scale(1.3);
         }
 
         /* --- TESTIMONIALS --- */
         #testimonials {
-            background-color: var(--bg-white);
+            background-color: var(--bg-light);
             overflow: hidden;
         }
 
@@ -515,7 +522,7 @@
             overflow: hidden;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            background: var(--bg-light);
+            background: var(--bg-white);
         }
 
         .slider-track {
@@ -535,7 +542,7 @@
 
         .quote-icon {
             font-size: 3rem;
-            color: rgba(95, 113, 97, 0.1);
+            color: rgba(232, 93, 117, 0.1); /* Pink tint */
             margin-bottom: 10px;
         }
 
@@ -691,32 +698,53 @@
             text-align: center;
         }
 
-        /* --- NEW BOOKING FORM SECTION --- */
+        /* --- BOOKING & PROCEDURE SECTION --- */
         #booking {
             background-color: var(--primary-color);
             color: white;
         }
 
-        #booking .section-title h2 {
+        /* Layout Container */
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr; /* Kiri Text, Kanan Form */
+            gap: 50px;
+            align-items: center;
+        }
+
+        /* Left Side: Text */
+        .booking-info {
             color: white;
         }
 
-        #booking .section-title p {
-            color: rgba(255,255,255,0.8);
+        .booking-info h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: white;
+            line-height: 1.2;
         }
 
-        #booking .section-title::after {
-            background-color: white;
+        .booking-info p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.6;
         }
 
+        /* Right Side: Form */
         .booking-form-wrapper {
             background: white;
             color: var(--text-dark);
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 100%;
             padding: 40px;
             border-radius: var(--radius);
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .booking-form-wrapper h3 {
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-align: center;
         }
 
         .form-group {
@@ -743,12 +771,12 @@
         .form-control:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(95, 113, 97, 0.1);
+            box-shadow: 0 0 0 3px rgba(232, 93, 117, 0.1);
         }
 
         /* --- FOOTER --- */
         footer {
-            background-color: #2C3333;
+            background-color: #2C2C2C;
             color: white;
             padding-top: 60px;
         }
@@ -800,7 +828,7 @@
         }
 
         .copyright {
-            background-color: #1a1f1f;
+            background-color: #1a1a1a;
             text-align: center;
             padding: 20px;
             color: #888;
@@ -847,6 +875,13 @@
             }
             .map-wrapper, .info-card {
                 height: 350px;
+            }
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+            .booking-info {
+                text-align: center;
+                margin-bottom: 30px;
             }
         }
 
@@ -909,7 +944,8 @@
                     <a href="#hero" onclick="toggleMenu()">Beranda</a>
                     <a href="#about" onclick="toggleMenu()">Tentang Kami</a>
                     <a href="#services" onclick="toggleMenu()">Layanan</a>
-                    <a href="#procedure" onclick="toggleMenu()">Cara Pesan</a>
+                    <!-- Link diubah ke #booking karena bagian procedure sudah digabung -->
+                    <a href="#booking" onclick="toggleMenu()">Cara Pesan</a>
                     <a href="#testimonials" onclick="toggleMenu()">Testimoni</a>
                     <a href="#location" onclick="toggleMenu()">Lokasi</a>
                     <a href="#booking" onclick="toggleMenu()" class="btn btn-primary" style="padding: 8px 20px; margin-left: 10px;">Reservasi</a>
@@ -945,21 +981,6 @@
                         <h3>Mitra Kesehatan & Kecantikan Keluarga Anda</h3>
                         <p>DF Homespa adalah penyedia layanan pijat dan spa panggilan yang berdedikasi menghadirkan ketenangan dan kesehatan bagi keluarga Anda. Kami memahami kesibukan Anda, oleh karena itu kami membawa spa mewah ke ruang tamu atau kamar tidur Anda.</p>
                         <p>Setiap terapis kami telah melewati seleksi ketat, pelatihan profesional, dan sertifikasi kesehatan rutin. Kami memastikan privasi, kebersihan, dan kenyamanan Anda adalah prioritas utama.</p>
-                        
-                        <div class="stats">
-                            <div class="stat-item">
-                                <h4>5+</h4>
-                                <span>Tahun Pengalaman</span>
-                            </div>
-                            <div class="stat-item">
-                                <h4>10+</h4>
-                                <span>Terapis Ahli</span>
-                            </div>
-                            <div class="stat-item">
-                                <h4>1k+</h4>
-                                <span>Transaksi Sukses</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -984,7 +1005,6 @@
                             <h3>Full Body Massage</h3>
                             <span class="price">Hubungi Admin</span>
                             <p>Pijat menyeluruh untuk relaksasi otot dan melancarkan peredaran darah. Tersedia teknik Jawa, Bali, dan Shiatsu.</p>
-                            <a href="#booking" class="btn btn-outline">Pesan</a>
                         </div>
                     </article>
 
@@ -998,7 +1018,6 @@
                             <h3>Pijat Menaikkan Rahim</h3>
                             <span class="price">Hubungi Admin</span>
                             <p>Terapi khusus untuk kesehatan organ kewanitaan, membantu memulihkan pasca melahirkan, dan menjaga kebugaran.</p>
-                            <a href="#booking" class="btn btn-outline">Pesan</a>
                         </div>
                     </article>
 
@@ -1011,7 +1030,6 @@
                             <h3>Buka Aura Wajah</h3>
                             <span class="price">Hubungi Admin</span>
                             <p>Perawatan wajah mendalam untuk mencerahkan, mengencangkan kulit, serta merawat aura wajah agar tampak segar dan bersinar.</p>
-                            <a href="#booking" class="btn btn-outline">Pesan</a>
                         </div>
                     </article>
 
@@ -1024,7 +1042,6 @@
                             <h3>Lulur & Scrub</h3>
                             <span class="price">Hubungi Admin</span>
                             <p>Membersihkan sel kulit mati, mencerahkan, dan menghaluskan kulit. Pilihan bahan: Susu, Green Tea, dan Whitening.</p>
-                            <a href="#booking" class="btn btn-outline">Pesan</a>
                         </div>
                     </article>
 
@@ -1037,7 +1054,6 @@
                             <h3>Refleksi Kaki</h3>
                             <span class="price">Hubungi Admin</span>
                             <p>Terapi titik syaraf pada telapak kaki untuk mengatasi kelelahan, pegal linu, dan mengembalikan stamina tubuh.</p>
-                            <a href="#booking" class="btn btn-outline">Pesan</a>
                         </div>
                     </article>
 
@@ -1050,7 +1066,6 @@
                             <h3>Pijat Bayi</h3>
                             <span class="price">Hubungi Admin</span>
                             <p>Pijat lembut khusus untuk bayi agar tidur nyenyak, meningkatkan nafsu makan, dan meredakan kolik.</p>
-                            <a href="#booking" class="btn btn-outline">Pesan</a>
                         </div>
                     </article>
                 </div>
@@ -1089,65 +1104,47 @@
             </div>
         </section>
 
-        <!-- Booking Procedure Section -->
-        <section id="procedure" class="section-padding">
-            <div class="container">
-                <div class="section-title text-center">
-                    <h2>Cara Pemesanan</h2>
-                    <p>Mudah dan simpel, cukup dari genggaman tangan Anda</p>
-                </div>
-                <div class="steps-container">
-                    <div class="step-card">
-                        <div class="step-number">1</div>
-                        <h4>Pilih Layanan</h4>
-                        <p>Tentukan jenis perawatan dan waktu yang Anda inginkan.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">2</div>
-                        <h4>Hubungi Kami</h4>
-                        <p>Klik tombol WhatsApp atau isi form di bawah ini.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">3</div>
-                        <h4>Konfirmasi</h4>
-                        <p>Admin akan membalas dan mengkonfirmasi jadwal terapis.</p>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">4</div>
-                        <h4>Nikmati Layanan</h4>
-                        <p>Terapis datang ke rumah, siap memberikan relaksasi.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Gallery Section -->
+        <!-- Gallery Section (Single Image Slider) -->
         <section id="gallery" class="section-padding">
             <div class="container">
                 <div class="section-title text-center">
                     <h2>Galeri Aktivitas</h2>
                     <p>Dokumentasi kepuasan pelanggan kami</p>
                 </div>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/spa_oil/400/300" alt="Minyak Aromaterapi">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/towel/400/300" alt="Handuk Bersih">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/candles/400/300" alt="Suasana Santai">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/stones/400/300" alt="Batu Terapi">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/flower_bath/400/300" alt="Flower Bath">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="https://picsum.photos/seed/massage_tools/400/300" alt="Peralatan Pijat">
+                
+                <div class="gallery-slider-wrapper">
+                    <button class="gallery-btn g-prev-btn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="gallery-btn g-next-btn"><i class="fas fa-chevron-right"></i></button>
+                    
+                    <div class="gallery-track" id="galleryTrack">
+                        <!-- Slide 1 -->
+                        <div class="gallery-slide">
+                            <img src="https://picsum.photos/seed/spa_oil/800/500" alt="Minyak Aromaterapi">
+                        </div>
+                        <!-- Slide 2 -->
+                        <div class="gallery-slide">
+                            <img src="https://picsum.photos/seed/towel/800/500" alt="Handuk Bersih">
+                        </div>
+                        <!-- Slide 3 -->
+                        <div class="gallery-slide">
+                            <img src="https://picsum.photos/seed/candles/800/500" alt="Suasana Santai">
+                        </div>
+                        <!-- Slide 4 -->
+                        <div class="gallery-slide">
+                            <img src="https://picsum.photos/seed/stones/800/500" alt="Batu Terapi">
+                        </div>
+                        <!-- Slide 5 -->
+                        <div class="gallery-slide">
+                            <img src="https://picsum.photos/seed/flower_bath/800/500" alt="Flower Bath">
+                        </div>
+                        <!-- Slide 6 -->
+                        <div class="gallery-slide">
+                            <img src="https://picsum.photos/seed/massage_tools/800/500" alt="Peralatan Pijat">
+                        </div>
                     </div>
                 </div>
+
+                <div class="gallery-dots" id="galleryDots"></div>
             </div>
         </section>
 
@@ -1234,7 +1231,7 @@
             <div class="container">
                 <div class="section-title text-center">
                     <h2>Lokasi & Kontak</h2>
-                    <p>Kami siap melayani area Makassar dan sekitarnya</p>
+                    <p>Kami siap melayani area Makassar, Gowa, Maros dan sekitarnya</p>
                 </div>
                 
                 <div class="location-content">
@@ -1272,53 +1269,58 @@
             </div>
         </section>
 
-        <!-- NEW BOOKING FORM SECTION -->
+        <!-- MERGED SECTION: Booking & Procedure -->
         <section id="booking" class="section-padding">
             <div class="container">
-                <div class="section-title text-center">
-                    <h2>Form Reservasi</h2>
-                    <p>Isi data di bawah ini untuk langsung terhubung ke WhatsApp Admin</p>
-                </div>
-                
-                <div class="booking-form-wrapper">
-                    <form id="whatsappForm" onsubmit="kirimWhatsApp(event)">
-                        <div class="form-group">
-                            <label for="nama">Nama Lengkap</label>
-                            <input type="text" id="nama" class="form-control" placeholder="Masukkan nama Anda" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="alamat">Alamat Lengkap</label>
-                            <textarea id="alamat" class="form-control" rows="3" placeholder="Alamat lengkap untuk kedatangan terapis" required></textarea>
-                        </div>
+                <div class="booking-grid">
+                    <!-- Left Side: Text Content -->
+                    <div class="booking-info">
+                        <h2>Cara Pemesanan</h2>
+                        <p>Mudah dan simpel, cukup dari genggaman tangan Anda</p>
+                    </div>
+                    
+                    <!-- Right Side: Booking Form -->
+                    <div class="booking-form-wrapper">
+                        <h3>Form Reservasi</h3>
+                        <form id="whatsappForm" onsubmit="kirimWhatsApp(event)">
+                            <div class="form-group">
+                                <label for="nama">Nama Lengkap</label>
+                                <input type="text" id="nama" class="form-control" placeholder="Masukkan nama Anda" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="alamat">Alamat Lengkap</label>
+                                <textarea id="alamat" class="form-control" rows="3" placeholder="Alamat lengkap untuk kedatangan terapis" required></textarea>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="layanan">Jenis Layanan</label>
-                            <select id="layanan" class="form-control" required>
-                                <option value="" disabled selected>Pilih Layanan...</option>
-                                <option value="Full Body Massage">Full Body Massage</option>
-                                <option value="Pijat Menikkan Rahim">Pijat Menikkan Rahim</option>
-                                <option value="Buka Aura Wajah">Buka Aura Wajah</option>
-                                <option value="Lulur & Scrub">Lulur & Scrub</option>
-                                <option value="Refleksi Kaki">Refleksi Kaki</option>
-                                <option value="Pijat Bayi">Pijat Bayi</option>
-                            </select>
-                        </div>
+                            <div class="form-group">
+                                <label for="layanan">Jenis Layanan</label>
+                                <select id="layanan" class="form-control" required>
+                                    <option value="" disabled selected>Pilih Layanan...</option>
+                                    <option value="Full Body Massage">Full Body Massage</option>
+                                    <option value="Pijat Menikkan Rahim">Pijat Menikkan Rahim</option>
+                                    <option value="Buka Aura Wajah">Buka Aura Wajah</option>
+                                    <option value="Lulur & Scrub">Lulur & Scrub</option>
+                                    <option value="Refleksi Kaki">Refleksi Kaki</option>
+                                    <option value="Pijat Bayi">Pijat Bayi</option>
+                                </select>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="tanggal">Tanggal Pemesanan</label>
-                            <input type="date" id="tanggal" class="form-control" required>
-                        </div>
+                            <div class="form-group">
+                                <label for="tanggal">Tanggal Pemesanan</label>
+                                <input type="date" id="tanggal" class="form-control" required>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="jam">Jam Layanan</label>
-                            <input type="time" id="jam" class="form-control" required>
-                        </div>
+                            <div class="form-group">
+                                <label for="jam">Jam Layanan</label>
+                                <input type="time" id="jam" class="form-control" required>
+                            </div>
 
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa-brands fa-whatsapp"></i> Ajukan Reservasi
-                        </button>
-                    </form>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fa-brands fa-whatsapp"></i> Ajukan Reservasi
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1346,7 +1348,7 @@
                 </div>
                 <div class="footer-col">
                     <h3>Kontak & Sosial</h3>
-                    <p><i class="fa-brands fa-whatsapp"></i> 0821 9373 5693</p>
+                    <p><i class="fa-brands fa-whatsapp"></i> 0821 9379 5693</p>
                     <p><i class="fa-regular fa-envelope"></i> info@dfhomespa.com</p>
                     <div class="social-links">
                         <a href="https://instagram.com/dfhomespa" target="_blank"><i class="fa-brands fa-instagram"></i></a>
@@ -1362,7 +1364,7 @@
     </footer>
 
     <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/6282193735693?text=Halo%20DF%20Homespa,%20saya%20mau%20booking%20spa." class="wa-float" target="_blank" title="Chat WhatsApp">
+    <a href="https://wa.me/6282193795693?text=Halo%20DF%20Homespa,%20saya%20mau%20booking%20spa." class="wa-float" target="_blank" title="Chat WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -1386,7 +1388,7 @@
             const jam = document.getElementById('jam').value;
 
             // Nomor Admin WA (Format: 628...)
-            const nomorAdmin = "6282193735693";
+            const nomorAdmin = "6282193795693";
 
             // Format Pesan
             const pesan = `Halo Admin DF Homespa, saya ingin memesan layanan spa.
@@ -1471,7 +1473,74 @@ Mohon konfirmasinya. Terima kasih.`;
 
             // Start auto-play on load
             startAutoPlay();
+
+            // --- GALLERY SLIDER LOGIC ---
+            const gTrack = document.getElementById('galleryTrack');
+            const gSlides = Array.from(gTrack.children);
+            const gNextBtn = document.querySelector('.g-next-btn');
+            const gPrevBtn = document.querySelector('.g-prev-btn');
+            const gDotsContainer = document.getElementById('galleryDots');
+
+            let gCurrentIndex = 0;
+            let gAutoPlayInterval;
+
+            // Create Gallery Dots
+            gSlides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('g-dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    goToGallerySlide(index);
+                });
+                gDotsContainer.appendChild(dot);
+            });
+
+            const gDots = Array.from(gDotsContainer.children);
+
+            // Function to move gallery slide
+            function goToGallerySlide(index) {
+                gCurrentIndex = index;
+                const amountToMove = -gCurrentIndex * 100;
+                gTrack.style.transform = `translateX(${amountToMove}%)`;
+                
+                // Update dots
+                gDots.forEach(dot => dot.classList.remove('active'));
+                gDots[gCurrentIndex].classList.add('active');
+            }
+
+            // Next Slide Gallery
+            gNextBtn.addEventListener('click', () => {
+                gCurrentIndex = (gCurrentIndex + 1) % gSlides.length;
+                goToGallerySlide(gCurrentIndex);
+                resetGalleryAutoPlay();
+            });
+
+            // Previous Slide Gallery
+            gPrevBtn.addEventListener('click', () => {
+                gCurrentIndex = (gCurrentIndex - 1 + gSlides.length) % gSlides.length;
+                goToGallerySlide(gCurrentIndex);
+                resetGalleryAutoPlay();
+            });
+
+            // Auto Play Function Gallery
+            function startGalleryAutoPlay() {
+                gAutoPlayInterval = setInterval(() => {
+                    gCurrentIndex = (gCurrentIndex + 1) % gSlides.length;
+                    goToGallerySlide(gCurrentIndex);
+                }, 4000); // Ganti slide setiap 4 detik
+            }
+
+            function resetGalleryAutoPlay() {
+                clearInterval(gAutoPlayInterval);
+                startGalleryAutoPlay();
+            }
+
+            // Start gallery auto-play
+            startGalleryAutoPlay();
         });
     </script>
 </body>
+
 </html>
+
+
