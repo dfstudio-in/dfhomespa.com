@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport tetap standar, namun tampilan visual diatur oleh CSS -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DF Homespa - Layanan Spa & Pijat Profesional</title>
     
@@ -47,9 +46,6 @@
             line-height: 1.6;
             background-color: var(--bg-light);
             overflow-x: hidden;
-            /* Optional: Force minimum width to resemble desktop if needed, 
-               but we will rely on CSS Grid forcing columns */
-            min-width: 320px;
         }
 
         h1, h2, h3, h4 {
@@ -201,7 +197,6 @@
             font-size: 1rem;
             color: var(--text-dark);
             position: relative;
-            white-space: nowrap; /* Agar tidak turun baris */
         }
 
         .nav-links a::after {
@@ -219,9 +214,11 @@
             width: 100%;
         }
 
-        /* Tombol menu mobile disembunyikan karena pakai tampilan PC */
         .mobile-menu-btn {
-            display: none; 
+            display: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
         }
 
         /* --- HERO SECTION --- */
@@ -239,7 +236,7 @@
         }
 
         .hero-content h1 {
-            font-size: 3.5rem; /* Ukuran Desktop */
+            font-size: 3.5rem;
             margin-bottom: 20px;
             color: white;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
@@ -247,7 +244,7 @@
         }
 
         .hero-content p {
-            font-size: 1.2rem; /* Ukuran Desktop */
+            font-size: 1.2rem;
             margin-bottom: 30px;
             max-width: 700px;
             margin-left: auto;
@@ -263,7 +260,6 @@
 
         .about-grid {
             display: grid;
-            /* Memaksa 2 kolom seperti Desktop */
             grid-template-columns: 1fr 1fr;
             gap: 50px;
             align-items: center;
@@ -361,7 +357,6 @@
             color: var(--primary-dark);
         }
 
-        /* Hapus style .price atau biarkan kosong jika ingin menjaga jarak */
         .price {
             display: block;
             margin-bottom: 20px;
@@ -625,7 +620,6 @@
 
         .location-content {
             display: grid;
-            /* Memaksa 2 kolom seperti Desktop */
             grid-template-columns: 1.5fr 1fr;
             gap: 40px;
             align-items: start;
@@ -712,7 +706,6 @@
 
         .booking-grid {
             display: grid;
-            /* Memaksa 2 kolom seperti Desktop */
             grid-template-columns: 1fr 1.2fr; 
             gap: 50px;
             align-items: center;
@@ -778,18 +771,18 @@
             box-shadow: 0 0 0 3px rgba(232, 93, 117, 0.1);
         }
 
-        /* --- FOOTER & MODAL STYLES (FORCE 4 COLUMNS) --- */
+        /* --- FOOTER & MODAL STYLES (UPDATED 4 COLUMNS) --- */
         footer {
             background-color: #2C2C2C;
             color: white;
             padding-top: 60px;
         }
 
-        /* Grid Layout Update: Memaksa 4 kolom */
+        /* Grid Layout Update */
         .footer-grid {
             display: grid;
-            /* Changed from auto-fit to strict repeat(4, 1fr) */
-            grid-template-columns: repeat(4, 1fr);
+            /* Reduced minmax from 250px to 220px to fit 4 cols on desktop/tablet */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 30px; 
             margin-bottom: 40px;
         }
@@ -797,15 +790,15 @@
         .footer-col h3 {
             color: white;
             margin-bottom: 15px;
-            font-size: 1.1rem; 
+            font-size: 1.1rem; /* Reduced from 1.4rem */
         }
 
         /* Text Size Reduction */
         .footer-col p, .footer-col a {
             color: #ccc;
-            margin-bottom: 8px; 
+            margin-bottom: 8px; /* Reduced from 10px */
             display: block;
-            font-size: 0.85rem; 
+            font-size: 0.85rem; /* Reduced from 0.95rem */
             line-height: 1.5;
         }
         
@@ -820,7 +813,7 @@
         }
 
         .social-links a {
-            width: 35px; 
+            width: 35px; /* Slightly smaller */
             height: 35px;
             background: rgba(255,255,255,0.1);
             display: flex;
@@ -837,11 +830,12 @@
 
         /* --- PAYMENT INFO SECTION (Column 4) --- */
         .payment-section {
+            /* Border removed since it's now its own column, adds visual clutter */
             margin-top: 0;
         }
 
         .payment-title {
-            font-size: 0.8rem; 
+            font-size: 0.8rem; /* Reduced from 1rem */
             font-weight: 700;
             margin-bottom: 12px;
             color: #ffffff;
@@ -853,9 +847,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 8px; 
+            margin-bottom: 8px; /* Reduced from 10px */
             background: rgba(255,255,255,0.05);
-            padding: 6px 10px; 
+            padding: 6px 10px; /* Reduced from 8px 12px */
             border-radius: 6px;
             transition: 0.3s;
         }
@@ -871,7 +865,7 @@
         }
 
         .bank-icon {
-            font-size: 1rem; 
+            font-size: 1rem; /* Reduced from 1.2rem */
             color: white;
             width: 20px;
             text-align: center;
@@ -879,16 +873,16 @@
 
         .bank-name {
             font-weight: bold;
-            font-size: 0.8rem; 
+            font-size: 0.8rem; /* Reduced from 0.9rem */
             color: #ffffff;
         }
 
         .account-number {
             font-family: 'Courier New', monospace;
-            font-size: 0.75rem; 
+            font-size: 0.75rem; /* Reduced from 0.85rem */
             color: #ffffff;
             cursor: pointer;
-            padding: 3px 6px; 
+            padding: 3px 6px; /* Reduced padding */
             border-radius: 4px;
             background: rgba(0,0,0,0.2);
             transition: 0.3s;
@@ -909,7 +903,7 @@
 
         .qris-trigger {
             margin-top: 10px;
-            font-size: 0.8rem; 
+            font-size: 0.8rem; /* Reduced from 0.9rem */
             color: #ffffff;
             cursor: pointer;
             display: inline-flex;
@@ -1040,13 +1034,77 @@
             background-color: #20BA5C;
         }
 
-        /* --- MEDIA QUERIES (DIHAPUS UNTUK MEMAKSA TAMPILAN PC) --- */
-        /* 
-           Catatan: Saya menghapus seluruh blok @media yang mengubah 
-           layout grid menjadi 1 kolom atau mengubah menu menjadi hamburger.
-           Ini membuat tampilan di HP (layar kecil) tetap sama seperti PC. 
-        */
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .location-content {
+                grid-template-columns: 1fr;
+            }
+            .map-wrapper, .info-card {
+                height: 350px;
+            }
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+            .booking-info {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+        }
 
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-white);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.05);
+                clip-path: circle(0% at 100% 0);
+                transition: 0.5s ease-in-out;
+            }
+
+            .nav-links.active {
+                clip-path: circle(150% at 100% 0);
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-img {
+                order: -1;
+            }
+
+            .slider-btn {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .prev-btn { left: -15px; }
+            .next-btn { right: -15px; }
+            
+            /* Mobile Payment Adjustments */
+            .bank-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .account-number {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1060,15 +1118,17 @@
                     <span>DF Homespa</span>
                 </div>
                 <div class="nav-links" id="navLinks">
-                    <a href="#hero">Beranda</a>
-                    <a href="#about">Tentang Kami</a>
-                    <a href="#services">Layanan</a>
-                    <a href="#booking">Cara Pesan</a>
-                    <a href="#testimonials">Testimoni</a>
-                    <a href="#location">Lokasi</a>
-                    <a href="#booking" class="btn btn-primary" style="padding: 8px 20px; margin-left: 10px;">Reservasi</a>
+                    <a href="#hero" onclick="toggleMenu()">Beranda</a>
+                    <a href="#about" onclick="toggleMenu()">Tentang Kami</a>
+                    <a href="#services" onclick="toggleMenu()">Layanan</a>
+                    <a href="#booking" onclick="toggleMenu()">Cara Pesan</a>
+                    <a href="#testimonials" onclick="toggleMenu()">Testimoni</a>
+                    <a href="#location" onclick="toggleMenu()">Lokasi</a>
+                    <a href="#booking" onclick="toggleMenu()" class="btn btn-primary" style="padding: 8px 20px; margin-left: 10px;">Reservasi</a>
                 </div>
-                <!-- Tombol mobile dihapus karena kita pakai tampilan PC -->
+                <div class="mobile-menu-btn" onclick="toggleMenu()">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
             </nav>
         </div>
     </header>
@@ -1119,7 +1179,6 @@
                         </div>
                         <div class="card-body">
                             <h3>Full Body Massage</h3>
-                            <!-- Teks "Hubungi Admin" dihilangkan -->
                             <p>Pijat menyeluruh untuk relaksasi otot dan melancarkan peredaran darah. Tersedia teknik Jawa, Bali, dan Shiatsu.</p>
                         </div>
                     </article>
@@ -1132,7 +1191,6 @@
                         </div>
                         <div class="card-body">
                             <h3>Menaikkan Rahim</h3>
-                            <!-- Teks "Hubungi Admin" dihilangkan -->
                             <p>Terapi khusus untuk kesehatan organ kewanitaan, membantu memulihkan pasca melahirkan, dan menjaga kebugaran.</p>
                         </div>
                     </article>
@@ -1144,7 +1202,6 @@
                         </div>
                         <div class="card-body">
                             <h3>Buka Aura Wajah</h3>
-                            <!-- Teks "Hubungi Admin" dihilangkan -->
                             <p>Perawatan wajah mendalam untuk mencerahkan, mengencangkan kulit, serta merawat aura wajah agar tampak segar dan bersinar.</p>
                         </div>
                     </article>
@@ -1156,7 +1213,6 @@
                         </div>
                         <div class="card-body">
                             <h3>Lulur & Scrub</h3>
-                            <!-- Teks "Hubungi Admin" dihilangkan -->
                             <p>Membersihkan sel kulit mati, mencerahkan, dan menghaluskan kulit. Pilihan bahan: Susu, Green Tea, dan Whitening.</p>
                         </div>
                     </article>
@@ -1168,7 +1224,6 @@
                         </div>
                         <div class="card-body">
                             <h3>Creambath</h3>
-                            <!-- Teks "Hubungi Admin" dihilangkan -->
                             <p>Perawatan rambut dan kulit kepala dengan pijatan relaksasi untuk menutrisi rambut, meredakan ketegangan kepala, serta memberikan efek segar dan rileks.</p>
                         </div>
                     </article>
@@ -1180,7 +1235,6 @@
                         </div>
                         <div class="card-body">
                             <h3>Back Alignment Therapy</h3>
-                            <!-- Teks "Hubungi Admin" dihilangkan -->
                             <p>Terapi punggung dengan tekanan terkontrol untuk membantu merilekskan otot, mengurangi ketegangan punggung, dan memberikan rasa lega pada tubuh.</p>
                         </div>
                     </article>
@@ -1539,6 +1593,12 @@
 
     <!-- Scripts -->
     <script>
+        // --- Mobile Menu Toggle ---
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
         // --- Booking Form Logic ---
         function kirimWhatsApp(e) {
             e.preventDefault(); // Mencegah reload halaman
