@@ -385,7 +385,7 @@
         }
         
         #features .section-title p {
-            color: #ffffff; /* PERBAIKAN: Teks putih agar mudah dibaca di background pink */
+            color: #ffffff; 
         }
 
         #features .section-title::after {
@@ -542,7 +542,7 @@
 
         .quote-icon {
             font-size: 3rem;
-            color: rgba(232, 93, 117, 0.1); /* Pink tint */
+            color: rgba(232, 93, 117, 0.1); 
             margin-bottom: 10px;
         }
 
@@ -704,15 +704,13 @@
             color: white;
         }
 
-        /* Layout Container */
         .booking-grid {
             display: grid;
-            grid-template-columns: 1fr 1.2fr; /* Kiri Text, Kanan Form */
+            grid-template-columns: 1fr 1.2fr; 
             gap: 50px;
             align-items: center;
         }
 
-        /* Left Side: Text */
         .booking-info {
             color: white;
         }
@@ -730,7 +728,6 @@
             line-height: 1.6;
         }
 
-        /* Right Side: Form */
         .booking-form-wrapper {
             background: white;
             color: var(--text-dark);
@@ -741,14 +738,14 @@
         }
 
         .booking-form-wrapper h3 {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-size: 1.5rem;
             color: var(--primary-color);
             text-align: center;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1px;
         }
 
         .form-group label {
@@ -774,31 +771,35 @@
             box-shadow: 0 0 0 3px rgba(232, 93, 117, 0.1);
         }
 
-        /* --- FOOTER --- */
+        /* --- FOOTER & MODAL STYLES (UPDATED 4 COLUMNS) --- */
         footer {
             background-color: #2C2C2C;
             color: white;
             padding-top: 60px;
         }
 
+        /* Grid Layout Update */
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
+            /* Reduced minmax from 250px to 220px to fit 4 cols on desktop/tablet */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px; 
             margin-bottom: 40px;
         }
 
         .footer-col h3 {
             color: white;
-            margin-bottom: 20px;
-            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-size: 1.1rem; /* Reduced from 1.4rem */
         }
 
+        /* Text Size Reduction */
         .footer-col p, .footer-col a {
             color: #ccc;
-            margin-bottom: 10px;
+            margin-bottom: 8px; /* Reduced from 10px */
             display: block;
-            font-size: 0.95rem;
+            font-size: 0.85rem; /* Reduced from 0.95rem */
+            line-height: 1.5;
         }
         
         .footer-col a:hover {
@@ -807,13 +808,13 @@
 
         .social-links {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .social-links a {
-            width: 40px;
-            height: 40px;
+            width: 35px; /* Slightly smaller */
+            height: 35px;
             background: rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
@@ -825,6 +826,171 @@
         .social-links a:hover {
             background: var(--primary-color);
             color: white;
+        }
+
+        /* --- PAYMENT INFO SECTION (Column 4) --- */
+        .payment-section {
+            /* Border removed since it's now its own column, adds visual clutter */
+            margin-top: 0;
+        }
+
+        .payment-title {
+            font-size: 0.8rem; /* Reduced from 1rem */
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .bank-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px; /* Reduced from 10px */
+            background: rgba(255,255,255,0.05);
+            padding: 6px 10px; /* Reduced from 8px 12px */
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .bank-row:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .bank-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bank-icon {
+            font-size: 1rem; /* Reduced from 1.2rem */
+            color: white;
+            width: 20px;
+            text-align: center;
+        }
+
+        .bank-name {
+            font-weight: bold;
+            font-size: 0.8rem; /* Reduced from 0.9rem */
+            color: #ffffff;
+        }
+
+        .account-number {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem; /* Reduced from 0.85rem */
+            color: #ffffff;
+            cursor: pointer;
+            padding: 3px 6px; /* Reduced padding */
+            border-radius: 4px;
+            background: rgba(0,0,0,0.2);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .account-number:hover {
+            color: var(--accent-color);
+            background: rgba(232, 93, 117, 0.2);
+        }
+
+        .account-number i {
+            font-size: 0.6rem;
+            opacity: 0.7;
+        }
+
+        .qris-trigger {
+            margin-top: 10px;
+            font-size: 0.8rem; /* Reduced from 0.9rem */
+            color: #ffffff;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.3s;
+        }
+
+        .qris-trigger:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        /* --- QRIS MODAL --- */
+        .qris-modal {
+            display: none; 
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .qris-content {
+            background-color: #fefefe;
+            padding: 30px;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: slideUp 0.4s ease;
+        }
+
+        .qris-content img {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 15px;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 5px;
+            background: white;
+        }
+
+        .qris-content h4 {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+
+        .qris-content p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .close-qris {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-qris:hover {
+            color: var(--primary-color);
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes slideUp {
+            from {transform: translateY(50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
         }
 
         .copyright {
@@ -927,6 +1093,17 @@
             
             .prev-btn { left: -15px; }
             .next-btn { right: -15px; }
+            
+            /* Mobile Payment Adjustments */
+            .bank-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .account-number {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -944,7 +1121,6 @@
                     <a href="#hero" onclick="toggleMenu()">Beranda</a>
                     <a href="#about" onclick="toggleMenu()">Tentang Kami</a>
                     <a href="#services" onclick="toggleMenu()">Layanan</a>
-                    <!-- Link diubah ke #booking karena bagian procedure sudah digabung -->
                     <a href="#booking" onclick="toggleMenu()">Cara Pesan</a>
                     <a href="#testimonials" onclick="toggleMenu()">Testimoni</a>
                     <a href="#location" onclick="toggleMenu()">Lokasi</a>
@@ -1327,10 +1503,11 @@
 
     </main>
 
-    <!-- Footer -->
+    <!-- Footer (Updated 4 Columns) -->
     <footer id="contact">
         <div class="container">
             <div class="footer-grid">
+                <!-- Column 1 -->
                 <div class="footer-col">
                     <div class="logo" style="margin-bottom: 15px;">
                         <img src="https://z-cdn-media.chatglm.cn/files/c232cdea-9649-43fb-86a9-57d0825ad637.png?auth_key=1867126908-29f0073e744e4aa4925500c3c72ffadf-0-2fffe6775687759fef9d56b460d13183" alt="Logo DF Homespa" class="logo-img">
@@ -1338,6 +1515,8 @@
                     </div>
                     <p>Layanan spa dan pijat panggilan profesional terpercaya untuk kesehatan dan kecantikan keluarga Anda. Kenyamanan rumah Anda adalah prioritas kami.</p>
                 </div>
+                
+                <!-- Column 2 -->
                 <div class="footer-col">
                     <h3>Layanan Populer</h3>
                     <a href="#services">Full Body Massage</a>
@@ -1346,14 +1525,53 @@
                     <a href="#services">Back Alignment Therapy</a>
                     <a href="#services">Lulur & Scrub</a>
                 </div>
+                
+                <!-- Column 3: Kontak & Sosial -->
                 <div class="footer-col">
                     <h3>Kontak & Sosial</h3>
                     <p><i class="fa-brands fa-whatsapp"></i> 0821 9379 5693</p>
                     <p><i class="fa-regular fa-envelope"></i> info@dfhomespa.com</p>
+                    
                     <div class="social-links">
                         <a href="https://instagram.com/dfhomespa" target="_blank"><i class="fa-brands fa-instagram"></i></a>
                         <a href="https://www.facebook.com/DFHomeSpaOfficial" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
                         <a href="https://www.tiktok.com/@df_homespa" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 4: Payment Info -->
+                <div class="footer-col">
+                    <h3>Info Pembayaran</h3>
+                    <div class="payment-section">
+                        <!-- Bank BCA -->
+                        <div class="bank-row">
+                            <div class="bank-left">
+                                <i class="fa-solid fa-building-columns bank-icon"></i>
+                                <span class="bank-name">BCA</span>
+                            </div>
+                            <div class="account-number" onclick="copyToClipboard(this, '12345678799')" title="Klik untuk menyalin">
+                                <span>12345678799</span>
+                                <i class="fa-regular fa-copy"></i>
+                            </div>
+                        </div>
+
+                        <!-- Bank Mandiri -->
+                        <div class="bank-row">
+                            <div class="bank-left">
+                                <i class="fa-solid fa-building-columns bank-icon"></i>
+                                <span class="bank-name">Mandiri</span>
+                            </div>
+                            <div class="account-number" onclick="copyToClipboard(this, '12345678799')" title="Klik untuk menyalin">
+                                <span>12345678799</span>
+                                <i class="fa-regular fa-copy"></i>
+                            </div>
+                        </div>
+
+                        <!-- QRIS Link -->
+                        <div class="qris-trigger" onclick="openQRIS()">
+                            <i class="fa-solid fa-qrcode"></i>
+                            <span>Klik untuk Kode QRIS</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1362,6 +1580,17 @@
             <p>&copy; 2025 DF Homespa. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <!-- QRIS Modal Popup -->
+    <div id="qrisModal" class="qris-modal">
+        <div class="qris-content">
+            <span class="close-qris" onclick="closeQRIS()">&times;</span>
+            <h4>Scan QRIS</h4>
+            <!-- Menggunakan API QR Code Generator untuk membuat QR otomatis dari nomor DANA -->
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=6282193795693" alt="QRIS DANA">
+            <p>Scan untuk pembayaran via DANA</p>
+        </div>
+    </div>
 
     <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/6282193795693?text=Halo%20DF%20Homespa,%20saya%20mau%20booking%20spa." class="wa-float" target="_blank" title="Chat WhatsApp">
@@ -1407,6 +1636,44 @@ Mohon konfirmasinya. Terima kasih.`;
             // Buka WhatsApp
             const urlWa = `https://wa.me/${nomorAdmin}?text=${encodedPesan}`;
             window.open(urlWa, '_blank');
+        }
+
+        // --- Copy to Clipboard Function ---
+        function copyToClipboard(element, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalContent = element.innerHTML;
+                
+                // Visual feedback: Ganti ikon jadi check dan teks jadi "Tersalin"
+                element.innerHTML = '<i class="fa-solid fa-check"></i> <span>Tersalin!</span>';
+                element.style.color = '#4ade80'; // Green color
+                element.style.background = 'rgba(74, 222, 128, 0.2)';
+
+                // Reset setelah 2 detik
+                setTimeout(() => {
+                    element.innerHTML = originalContent;
+                    element.style.color = '';
+                    element.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+            });
+        }
+
+        // --- QRIS Modal Functions ---
+        function openQRIS() {
+            document.getElementById('qrisModal').style.display = 'flex';
+        }
+
+        function closeQRIS() {
+            document.getElementById('qrisModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside content
+        window.onclick = function(event) {
+            const modal = document.getElementById('qrisModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
 
         // --- Testimonial Slider Logic ---
@@ -1542,9 +1809,3 @@ Mohon konfirmasinya. Terima kasih.`;
 </body>
 
 </html>
-
-
-
-
-
-
