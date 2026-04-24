@@ -13,6 +13,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
     <style>
         /* --- CSS VARIABLES & RESET --- */
         :root {
@@ -372,6 +375,36 @@
             font-size: 0.95rem;
             line-height: 1.8;
             flex-grow: 1;
+        }
+
+        /* TOMBOL BAYAR DI SERVICE CARD */
+        .pay-now-btn {
+            margin-top: 20px;
+            padding: 14px 25px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(232, 93, 117, 0.35);
+        }
+
+        .pay-now-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(232, 93, 117, 0.45);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #9a3347 100%);
+        }
+
+        .pay-now-btn i {
+            font-size: 1.1rem;
         }
 
         /* --- FEATURES --- */
@@ -771,6 +804,468 @@
             box-shadow: 0 0 0 3px rgba(232, 93, 117, 0.1);
         }
 
+        /* ========================================
+           PAYMENT MODAL STYLES (FITUR BARU)
+           ======================================== */
+        
+        /* Overlay Modal */
+        .payment-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeInModal 0.3s ease;
+        }
+
+        .payment-modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUpModal {
+            from { 
+                transform: translateY(50px) scale(0.95);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Modal Container */
+        .payment-modal {
+            background: white;
+            border-radius: 24px;
+            max-width: 450px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            animation: slideUpModal 0.4s ease;
+            overflow: hidden;
+        }
+
+        /* Modal Header */
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-header-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .modal-header h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .modal-header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 30px;
+        }
+
+        /* Timer Warning */
+        .timer-warning {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 15px 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .timer-warning i {
+            color: #e67e22;
+            font-size: 1.3rem;
+        }
+
+        .timer-text {
+            color: #856404;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .timer-countdown {
+            color: #dc3545;
+            font-weight: 800;
+            font-size: 1.2rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* QR Code Container */
+        .qr-code-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 3px dashed #dee2e6;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .qr-code-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color), var(--primary-color));
+            border-radius: 18px;
+            z-index: -1;
+            opacity: 0.3;
+            animation: borderGlow 3s infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        #paymentQRCode {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        #paymentQRCode canvas,
+        #paymentQRCode img {
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            background: white;
+            padding: 10px;
+        }
+
+        .qr-instruction {
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .qr-instruction i {
+            color: var(--primary-color);
+            margin-right: 5px;
+        }
+
+        /* Payment Details Box */
+        .payment-details {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: 16px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .detail-label {
+            color: #555;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-label i {
+            color: var(--primary-color);
+            width: 18px;
+            text-align: center;
+        }
+
+        .detail-value {
+            font-weight: 700;
+            color: #2e7d32;
+            font-size: 1rem;
+        }
+
+        .detail-value.amount {
+            font-size: 1.5rem;
+            color: #1b5e20;
+        }
+
+        /* Payment Methods Badges */
+        .payment-methods-section {
+            margin-bottom: 20px;
+        }
+
+        .methods-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .payment-methods-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .method-badge {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .method-badge:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .method-badge i {
+            font-size: 1rem;
+        }
+
+        .badge-qris { color: #0066cc !important; border-color: #0066cc !important; }
+        .badge-gopay { color: #00aecd !important; border-color: #00aecd !important; }
+        .badge-ovo { color: #4c3494 !important; border-color: #4c3494 !important; }
+        .badge-dana { color: #108ee9 !important; border-color: #108ee9 !important; }
+        .badge-shopee { color: #ee4d2d !important; border-color: #ee4d2d !important; }
+        .badge-linkaja { color: #d63031 !important; border-color: #d63031 !important; }
+
+        /* Instructions Box */
+        .instructions-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+        }
+
+        .instructions-box h4 {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.95rem;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instructions-box ol {
+            margin-left: 18px;
+            color: #555;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        .instructions-box ol li {
+            margin-bottom: 5px;
+        }
+
+        /* Action Buttons */
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-check-payment {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
+        }
+
+        .btn-check-payment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
+        }
+
+        .btn-check-payment:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-download-qr {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-download-qr:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Success State */
+        .payment-success-state {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-animation {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: successBounce 0.6s ease;
+        }
+
+        @keyframes successBounce {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .payment-success-state h3 {
+            font-size: 1.6rem;
+            color: #11998e;
+            margin-bottom: 10px;
+        }
+
+        .payment-success-state p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .order-id-display {
+            background: #f0f9ff;
+            border: 2px solid #0ea5e9;
+            border-radius: 10px;
+            padding: 12px 20px;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        .order-id-display span {
+            font-weight: 800;
+            color: #0369a1;
+            font-size: 1.1rem;
+        }
+
+        .btn-close-success {
+            padding: 14px 35px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-close-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232, 93, 117, 0.4);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* --- FOOTER & MODAL STYLES (UPDATED 4 COLUMNS) --- */
         footer {
             background-color: #2C2C2C;
@@ -917,7 +1412,7 @@
             text-decoration: underline;
         }
 
-        /* --- QRIS MODAL --- */
+        /* --- QRIS MODAL (Footer) --- */
         .qris-modal {
             display: none; 
             position: fixed;
@@ -1049,6 +1544,20 @@
                 text-align: center;
                 margin-bottom: 30px;
             }
+            
+            /* Payment Modal Responsive */
+            .payment-modal {
+                max-width: 95%;
+                margin: 10px;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .detail-value.amount {
+                font-size: 1.3rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1103,6 +1612,16 @@
             .account-number {
                 width: 100%;
                 justify-content: center;
+            }
+
+            /* Payment Methods Badges Mobile */
+            .payment-methods-badges {
+                gap: 6px;
+            }
+            
+            .method-badge {
+                padding: 6px 10px;
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -1179,7 +1698,11 @@
                         </div>
                         <div class="card-body">
                             <h3>Full Body Massage</h3>
+                            <span class="price">Rp 150.000</span>
                             <p>Pijat menyeluruh untuk relaksasi otot dan melancarkan peredaran darah. Tersedia teknik Jawa, Bali, dan Shiatsu.</p>
+                            <button class="pay-now-btn" onclick="openPaymentModal('Full Body Massage', 150000)">
+                                <i class="fa-solid fa-qrcode"></i> Bayar Sekarang
+                            </button>
                         </div>
                     </article>
 
@@ -1191,7 +1714,11 @@
                         </div>
                         <div class="card-body">
                             <h3>Menaikkan Rahim</h3>
+                            <span class="price">Rp 200.000</span>
                             <p>Terapi khusus untuk kesehatan organ kewanitaan, membantu memulihkan pasca melahirkan, dan menjaga kebugaran.</p>
+                            <button class="pay-now-btn" onclick="openPaymentModal('Menaikkan Rahim', 200000)">
+                                <i class="fa-solid fa-qrcode"></i> Bayar Sekarang
+                            </button>
                         </div>
                     </article>
 
@@ -1202,7 +1729,11 @@
                         </div>
                         <div class="card-body">
                             <h3>Buka Aura Wajah</h3>
+                            <span class="price">Rp 175.000</span>
                             <p>Perawatan wajah mendalam untuk mencerahkan, mengencangkan kulit, serta merawat aura wajah agar tampak segar dan bersinar.</p>
+                            <button class="pay-now-btn" onclick="openPaymentModal('Buka Aura Wajah', 175000)">
+                                <i class="fa-solid fa-qrcode"></i> Bayar Sekarang
+                            </button>
                         </div>
                     </article>
 
@@ -1213,18 +1744,26 @@
                         </div>
                         <div class="card-body">
                             <h3>Lulur & Scrub</h3>
+                            <span class="price">Rp 125.000</span>
                             <p>Membersihkan sel kulit mati, mencerahkan, dan menghaluskan kulit. Pilihan bahan: Susu, Green Tea, dan Whitening.</p>
+                            <button class="pay-now-btn" onclick="openPaymentModal('Lulur & Scrub', 125000)">
+                                <i class="fa-solid fa-qrcode"></i> Bayar Sekarang
+                            </button>
                         </div>
                     </article>
 
                     <!-- Service 5: Creambath -->
                     <article class="service-card">
                         <div class="card-image-wrapper">
-                            <img src="https://lh3.googleusercontent.com/u/0/d/1irNYS9b9DPdfoxTGRZy_q6sPGDjCu3lG" alt="Refleksi">
+                            <img src="https://lh3.googleusercontent.com/u/0/d/1irNYS9b9DPdfoxTGRZy_q6sPGDjCu3lG" alt="Creambath">
                         </div>
                         <div class="card-body">
                             <h3>Creambath</h3>
-                            <p>Perawatan rambut dan kulit kepala dengan pijatan relaksasi untuk menutrisi rambut, meredakan ketegangan kepala, serta memberikan efek segar dan rileks.</p>
+                            <span class="price">Rp 100.000</span>
+                            <p>Perawatan rambut dan kulit kepala dengan pijatan relaksasi untuk menutrisi rambut, meredakan ketegangan kepala.</p>
+                            <button class="pay-now-btn" onclick="openPaymentModal('Creambath', 100000)">
+                                <i class="fa-solid fa-qrcode"></i> Bayar Sekarang
+                            </button>
                         </div>
                     </article>
 
@@ -1235,7 +1774,11 @@
                         </div>
                         <div class="card-body">
                             <h3>Back Alignment Therapy</h3>
-                            <p>Terapi punggung dengan tekanan terkontrol untuk membantu merilekskan otot, mengurangi ketegangan punggung, dan memberikan rasa lega pada tubuh.</p>
+                            <span class="price">Rp 180.000</span>
+                            <p>Terapi punggung dengan tekanan terkontrol untuk membantu merilekskan otot dan memberikan rasa lega pada tubuh.</p>
+                            <button class="pay-now-btn" onclick="openPaymentModal('Back Alignment Therapy', 180000)">
+                                <i class="fa-solid fa-qrcode"></i> Bayar Sekarang
+                            </button>
                         </div>
                     </article>
                 </div>
@@ -1562,9 +2105,9 @@
                         </div>
 
                         <!-- QRIS Link -->
-                        <div class="qris-trigger" onclick="openQRIS()">
+                        <div class="qris-trigger" onclick="openPaymentModal('Pembayaran Umum', 0)">
                             <i class="fa-solid fa-qrcode"></i>
-                            <span>Klik untuk Kode QRIS</span>
+                            <span>Klik untuk Kode QRIS Pembayaran</span>
                         </div>
                     </div>
                 </div>
@@ -1575,14 +2118,117 @@
         </div>
     </footer>
 
-    <!-- QRIS Modal Popup -->
+    <!-- QRIS Modal Popup (Footer - Simple Version) -->
     <div id="qrisModal" class="qris-modal">
         <div class="qris-content">
             <span class="close-qris" onclick="closeQRIS()">&times;</span>
             <h4>Scan QRIS</h4>
-            <!-- Menggunakan API QR Code Generator untuk membuat QR otomatis dari nomor DANA -->
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=6282193795693" alt="QRIS DANA">
             <p>Scan untuk pembayaran via DANA</p>
+        </div>
+    </div>
+
+    <!-- ============================================
+         PAYMENT MODAL (FITUR BARU - QR CODE LENGKAP)
+         ============================================ -->
+    <div class="payment-modal-overlay" id="paymentModalOverlay">
+        <div class="payment-modal">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button class="modal-close-btn" onclick="closePaymentModal()">&times;</button>
+                <div class="modal-header-icon">📱</div>
+                <h3>Pembayaran QRIS</h3>
+                <p>Scan kode QR untuk melakukan pembayaran</p>
+            </div>
+
+            <!-- Payment Content State -->
+            <div class="modal-body" id="paymentContentState">
+                
+                <!-- Timer Warning -->
+                <div class="timer-warning">
+                    <i class="fa-solid fa-clock"></i>
+                    <span class="timer-text">Selesaikan dalam: <span class="timer-countdown" id="paymentTimer">15:00</span></span>
+                </div>
+
+                <!-- QR Code Container -->
+                <div class="qr-code-container">
+                    <div id="paymentQRCode"></div>
+                    <p class="qr-instruction">
+                        <i class="fa-solid fa-camera"></i>
+                        Scan QR Code menggunakan aplikasi e-wallet atau mobile banking
+                    </p>
+                </div>
+
+                <!-- Payment Details -->
+                <div class="payment-details">
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            <i class="fa-solid fa-spa"></i> Layanan
+                        </span>
+                        <span class="detail-value" id="paymentServiceName">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            <i class="fa-solid fa-receipt"></i> Nomor Order
+                        </span>
+                        <span class="detail-value" id="paymentOrderId">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">
+                            <i class="fa-solid fa-money-bill-wave"></i> Total
+                        </span>
+                        <span class="detail-value amount" id="paymentAmount">Rp 0</span>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="payment-methods-section">
+                    <p class="methods-label">Metode pembayaran yang didukung:</p>
+                    <div class="payment-methods-badges">
+                        <span class="method-badge badge-qris"><i class="fa-solid fa-qrcode"></i> QRIS</span>
+                        <span class="method-badge badge-gopay"><i class="fa-brands fa-google-pay"></i> GoPay</span>
+                        <span class="method-badge badge-ovo"><i class="fa-solid fa-wallet"></i> OVO</span>
+                        <span class="method-badge badge-dana"><i class="fa-solid fa-piggy-bank"></i> DANA</span>
+                        <span class="method-badge badge-shopee"><i class="fa-brands fa-shopify"></i> ShopeePay</span>
+                        <span class="method-badge badge-linkaja"><i class="fa-solid fa-link"></i> LinkAja</span>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="instructions-box">
+                    <h4><i class="fa-solid fa-list-ol"></i> Cara Pembayaran:</h4>
+                    <ol>
+                        <li>Buka aplikasi e-wallet (GoPay/OVO/DANA/ShopeePay)</li>
+                        <li>Pilih menu <strong>"Scan QR"</strong> atau <strong>"Bayar"</strong></li>
+                        <li>Arahkan kamera ke QR Code di atas</li>
+                        <li>Masukkan PIN atau gunakan Face ID</li>
+                        <li>Pembayaran berhasil! ✅</li>
+                    </ol>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="modal-actions">
+                    <button class="btn-check-payment" id="checkPaymentBtn" onclick="simulateCheckPayment()">
+                        <i class="fa-solid fa-circle-check"></i> Saya Sudah Bayar - Cek Status
+                    </button>
+                    <button class="btn-download-qr" onclick="downloadQRCode()">
+                        <i class="fa-solid fa-download"></i> Download QR Code
+                    </button>
+                </div>
+            </div>
+
+            <!-- Success State (Hidden by default) -->
+            <div class="payment-success-state" id="paymentSuccessState">
+                <div class="success-animation">✅</div>
+                <h3>Pembayaran Berhasil!</h3>
+                <p>Terima kasih atas pembayaran Anda. Tim kami akan segera menghubungi Anda untuk konfirmasi jadwal layanan.</p>
+                <div class="order-id-display">
+                    Order ID: <span id="successOrderId">-</span>
+                </div>
+                <button class="btn-close-success" onclick="closePaymentModal()">
+                    Tutup
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1593,13 +2239,17 @@
 
     <!-- Scripts -->
     <script>
-        // --- Mobile Menu Toggle ---
+        // ==========================================
+        // MOBILE MENU TOGGLE
+        // ==========================================
         function toggleMenu() {
             const navLinks = document.getElementById('navLinks');
             navLinks.classList.toggle('active');
         }
 
-        // --- Booking Form Logic ---
+        // ==========================================
+        // BOOKING FORM LOGIC (WhatsApp)
+        // ==========================================
         function kirimWhatsApp(e) {
             e.preventDefault(); // Mencegah reload halaman
 
@@ -1632,7 +2282,9 @@ Mohon konfirmasinya. Terima kasih.`;
             window.open(urlWa, '_blank');
         }
 
-        // --- Copy to Clipboard Function ---
+        // ==========================================
+        // COPY TO CLIPBOARD FUNCTION
+        // ==========================================
         function copyToClipboard(element, text) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalContent = element.innerHTML;
@@ -1653,7 +2305,9 @@ Mohon konfirmasinya. Terima kasih.`;
             });
         }
 
-        // --- QRIS Modal Functions ---
+        // ==========================================
+        // QRIS MODAL FUNCTIONS (Footer - Simple)
+        // ==========================================
         function openQRIS() {
             document.getElementById('qrisModal').style.display = 'flex';
         }
@@ -1670,7 +2324,265 @@ Mohon konfirmasinya. Terima kasih.`;
             }
         }
 
-        // --- Testimonial Slider Logic ---
+        // ==========================================
+        // PAYMENT MODAL FUNCTIONS (FITUR BARU)
+        // ==========================================
+        
+        let paymentTimerInterval = null;
+        let currentOrderData = null;
+
+        /**
+         * Open Payment Modal with QR Code
+         * @param {string} serviceName - Nama layanan
+         * @param {number} amount - Jumlah pembayaran dalam Rupiah
+         */
+        function openPaymentModal(serviceName, amount) {
+            // Generate unique order ID
+            const orderId = generateOrderId();
+            currentOrderData = {
+                serviceName: serviceName,
+                amount: amount,
+                orderId: orderId,
+                timestamp: new Date()
+            };
+
+            // Update UI dengan data pembayaran
+            document.getElementById('paymentServiceName').textContent = serviceName;
+            document.getElementById('paymentOrderId').textContent = orderId;
+            document.getElementById('paymentAmount').textContent = formatCurrency(amount);
+            document.getElementById('successOrderId').textContent = orderId;
+
+            // Show payment content state, hide success state
+            document.getElementById('paymentContentState').style.display = 'block';
+            document.getElementById('paymentSuccessState').style.display = 'none';
+
+            // Reset button state
+            const checkBtn = document.getElementById('checkPaymentBtn');
+            checkBtn.disabled = false;
+            checkBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Saya Sudah Bayar - Cek Status';
+
+            // Show modal
+            document.getElementById('paymentModalOverlay').classList.add('active');
+
+            // Generate QR Code
+            generatePaymentQR(orderId, amount);
+
+            // Start countdown timer
+            startPaymentTimer();
+        }
+
+        /**
+         * Close Payment Modal
+         */
+        function closePaymentModal() {
+            document.getElementById('paymentModalOverlay').classList.remove('active');
+            
+            // Stop timer
+            if (paymentTimerInterval) {
+                clearInterval(paymentTimerInterval);
+                paymentTimerInterval = null;
+            }
+
+            // Clear QR code setelah animasi selesai
+            setTimeout(() => {
+                const qrContainer = document.getElementById('paymentQRCode');
+                if (qrContainer) qrContainer.innerHTML = '';
+            }, 300);
+        }
+
+        /**
+         * Generate QR Code untuk pembayaran
+         * Menggunakan library qrcode.js
+         */
+        function generatePaymentQR(orderId, amount) {
+            const qrContainer = document.getElementById('paymentQRCode');
+            qrContainer.innerHTML = ''; // Clear previous QR
+
+            // Data QR Code - bisa disesuaikan dengan payment gateway
+            // Format: Nama Merchant|Order ID|Amount|Timestamp
+            const qrData = `DF-HOMESPA|${orderId}|${amount}|${Date.now()}|PAYMENT`;
+            
+            // Alternative: Gunakan nomor DANA/WA untuk QRIS statis
+            const alternativeData = `6282193795693`; // Nomor DANA/WA Business
+
+            // Generate QR Code
+            QRCode.toCanvas(qrData, { 
+                width: 200,
+                margin: 2,
+                color: {
+                    dark: '#E85D75', // Warna sesuai brand DF Homespa
+                    light: '#FFFFFF'
+                },
+                errorCorrectionLevel: 'M'
+            }, function(error, canvas) {
+                if (error) {
+                    console.error('Error generating QR:', error);
+                    qrContainer.innerHTML = '<p style="color: red; padding: 20px;">Gagal generate QR Code</p>';
+                    return;
+                }
+                canvas.id = 'qrCanvas';
+                canvas.title = `Scan untuk membayar ${formatCurrency(amount)}`;
+                qrContainer.appendChild(canvas);
+            });
+        }
+
+        /**
+         * Start Countdown Timer 15 menit
+         */
+        function startPaymentTimer() {
+            // Clear existing timer
+            if (paymentTimerInterval) {
+                clearInterval(paymentTimerInterval);
+            }
+
+            let timeLeft = 15 * 60; // 15 menit dalam detik
+            const timerDisplay = document.getElementById('paymentTimer');
+
+            const updateTimer = () => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                // Warning styling saat < 5 menit
+                if (timeLeft <= 300) {
+                    timerDisplay.parentElement.style.background = 'linear-gradient(135deg, #ffe0e0 0%, #ffcdd2 100%)';
+                    timerDisplay.parentElement.style.borderColor = '#ef5350';
+                } else {
+                    timerDisplay.parentElement.style.background = 'linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%)';
+                    timerDisplay.parentElement.style.borderColor = '#ffc107';
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(paymentTimerInterval);
+                    alert('⏰ Waktu pembayaran habis!\nSilakan coba lagi.');
+                    closePaymentModal();
+                    return;
+                }
+                timeLeft--;
+            };
+
+            updateTimer(); // Initial call
+            paymentTimerInterval = setInterval(updateTimer, 1000);
+        }
+
+        /**
+         * Simulate Check Payment (Demo)
+         * Dalam implementasi nyata, panggil API payment gateway
+         */
+        function simulateCheckPayment() {
+            const btn = document.getElementById('checkPaymentBtn');
+            
+            // Disable button dan show loading
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Memeriksa status...';
+
+            // Simulasi delay API call (2 detik)
+            setTimeout(() => {
+                // Tampilkan success state
+                document.getElementById('paymentContentState').style.display = 'none';
+                document.getElementById('paymentSuccessState').style.display = 'block';
+
+                // Stop timer
+                if (paymentTimerInterval) {
+                    clearInterval(paymentTimerInterval);
+                    paymentTimerInterval = null;
+                }
+
+                // Optional: Kirim konfirmasi ke WhatsApp
+                sendPaymentConfirmation();
+
+            }, 2000);
+        }
+
+        /**
+         * Send payment confirmation to WhatsApp (Optional)
+         */
+        function sendPaymentConfirmation() {
+            if (!currentOrderData) return;
+
+            const message = `Halo DF Homespa, saya sudah melakukan pembayaran:
+
+📋 Detail Transaksi:
+• Order ID: ${currentOrderData.orderId}
+• Layanan: ${currentOrderData.serviceName}
+• Total: ${formatCurrency(currentOrderData.amount)}
+• Waktu: ${currentOrderData.timestamp.toLocaleString('id-ID')}
+
+Mohon dikonfirmasi ya. Terima kasih!`;
+
+            const encodedMsg = encodeURIComponent(message);
+            const waUrl = `https://wa.me/6282193795693?text=${encodedMsg}`;
+            
+            // Buka WA di tab baru (optional - bisa di-comment jika tidak perlu)
+            // window.open(waUrl, '_blank');
+        }
+
+        /**
+         * Download QR Code as image
+         */
+        function downloadQRCode() {
+            const canvas = document.getElementById('qrCanvas');
+            if (!canvas) {
+                alert('QR Code belum tersedia');
+                return;
+            }
+
+            // Convert canvas to image and download
+            const link = document.createElement('a');
+            link.download = `QR-Payment-${currentOrderData ? currentOrderData.orderId : 'DFHomespa'}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        // ==========================================
+        // UTILITY FUNCTIONS
+        // ==========================================
+
+        /**
+         * Generate unique Order ID
+         */
+        function generateOrderId() {
+            const now = new Date();
+            const dateStr = now.getFullYear().toString() +
+                           String(now.getMonth() + 1).padStart(2, '0') +
+                           String(now.getDate()).padStart(2, '0');
+            const timeStr = String(now.getHours()).padStart(2, '0') +
+                           String(now.getMinutes()).padStart(2, '0') +
+                           String(now.getSeconds()).padStart(2, '0');
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `SPA-${dateStr}-${timeStr}-${random}`;
+        }
+
+        /**
+         * Format currency to Rupiah
+         */
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Close payment modal when clicking overlay
+        document.getElementById('paymentModalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePaymentModal();
+            }
+        });
+
+        // Close payment modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePaymentModal();
+                closeQRIS();
+            }
+        });
+
+        // ==========================================
+        // TESTIMONIAL SLIDER LOGIC
+        // ==========================================
         document.addEventListener('DOMContentLoaded', function() {
             const track = document.getElementById('sliderTrack');
             const slides = Array.from(track.children);
@@ -1801,6 +2713,4 @@ Mohon konfirmasinya. Terima kasih.`;
         });
     </script>
 </body>
-
 </html>
-
